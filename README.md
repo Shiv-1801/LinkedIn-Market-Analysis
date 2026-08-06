@@ -2,8 +2,7 @@
 
 Analysis of 4,949 marketing/analytics job postings scraped from LinkedIn across 10 countries, examining how AI-adoption is reshaping the marketing analyst role: which tools and skills define the AI-adjacent segment of the market, how that segment differs from traditional BI/marketing roles, and where it's concentrated by seniority tier and geography.
 
-Three independent text-analysis methods — topic modeling, TF-IDF term comparison, and skill co-occurrence network analysis — converge on the same underlying divide between AI-native and traditional marketing-analytics postings. Full findings are written up in [`Inferences.md`](../Inferences.md); the planned article structure is in [`MIA_Report_Outline.md`](../MIA_Report_Outline.md).
-
+Three independent text-analysis methods — topic modeling, TF-IDF term comparison, and skill co-occurrence network analysis — converge on the same underlying divide between AI-native and traditional marketing-analytics postings.
 ## Key findings
 
 - LinkedIn matches postings by search intent, not literal title — only ~5% of postings literally contain the searched phrase.

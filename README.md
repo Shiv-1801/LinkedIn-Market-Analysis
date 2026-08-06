@@ -1,84 +1,79 @@
-# MIA Project — Notebooks
+# MIA — Marketing Intelligence & AI-Adoption Analysis
+
+Analysis of 4,949 marketing/analytics job postings scraped from LinkedIn across 10 countries, examining how AI-adoption is reshaping the marketing analyst role: which tools and skills define the AI-adjacent segment of the market, how that segment differs from traditional BI/marketing roles, and where it's concentrated by seniority tier and geography.
+
+Three independent text-analysis methods — topic modeling, TF-IDF term comparison, and skill co-occurrence network analysis — converge on the same underlying divide between AI-native and traditional marketing-analytics postings. Full findings are written up in [`Inferences.md`](../Inferences.md); the planned article structure is in [`MIA_Report_Outline.md`](../MIA_Report_Outline.md).
+
+## Key findings
+
+- LinkedIn matches postings by search intent, not literal title — only ~5% of postings literally contain the searched phrase.
+- AI-mention rate varies substantially by country (26% France to 58% Canada), and by seniority tier: Entry/Junior is the most AI-mention-saturated segment globally, while in India specifically AI-adoption hiring skews toward Mid/Manager-Lead roles instead.
+- Power BI shows up in only 43% of AI-adjacent postings — well behind Python (60%), Databricks (67%), and Snowflake (63%) — reading as legacy BI tooling rather than part of the AI stack.
+- Topic modeling, TF-IDF term-frequency comparison, and skill co-occurrence network structure all independently identify the same boundary: AI-mention postings pull toward a distinct technical/analytical vocabulary (analysis, engineering, automation), while non-AI postings cluster around traditional retail/brand-marketing language.
 
 ## Pipeline
 
 ```
-01_linkedin_scraper.ipynb              -> data/mia_postings_raw.csv
-                                            |
-                                            v
-02b_enrich_ai_flag_language_geo.ipynb  -> data/mia_postings_final.csv
-   (adds mentions_ai, is_english, country,
-   applicationsCount_numeric/tag, postedDaysAgo)
-                                            |
-                                            v
-02_final_cleaning.ipynb                -> data/mia_postings_final2.csv
-   (adds workType_category, seniority)
-                                            |
-                                            v
-03b_ingestion_fixes.ipynb              -> data/mia_postings_final2_fixed2.csv
-   (stray-quote fix in description,
-   whitespace normalization in title)
-                                            |
-              +-----------------------------+-----------------------------+
-              |                                                           |
-              v                                                           v
-03_skill_extraction.ipynb                                  05_tfidf_nmf_topics.ipynb
-   -> data/mia_skills_long.csv                                 -> topic terms, TF-IDF
-              |                                                    group-diff scores
-              v
+01_linkedin_scraper.ipynb
+    Scrapes postings via the Apify LinkedIn Jobs Scraper actor
+    -> data/mia_postings_raw.csv
+
+02b_enrich_ai_flag_language_geo.ipynb
+    Adds mentions_ai, is_english, country, applicationsCount fields, posting recency
+    -> data/mia_postings_final.csv
+
+02_final_cleaning.ipynb
+    Collapses workType into broad categories, extracts seniority tier from title
+    -> data/mia_postings_final2.csv
+
+03b_ingestion_fixes.ipynb
+    Fixes two ingestion artifacts from the raw scrape (stray quotes, whitespace)
+    -> data/mia_postings_final2_fixed2.csv
+
+03_skill_extraction.ipynb                    05_tfidf_nmf_topics.ipynb
+    Regex-extracts a 42-skill vocabulary          NMF topic modeling + TF-IDF
+    -> data/mia_skills_long.csv                   term comparison, AI vs non-AI
+
 06_skill_cooccurrence_network.ipynb
-   -> skill network PNG + edge lists
+    Builds and compares skill co-occurrence networks by AI-mention group
+    -> network visualization + edge lists
 ```
 
-All notebooks expect a `data/` subfolder for CSV input/output — not included
-in this repo (raw scraped job postings aren't republished; the small
-aggregate outputs like edge lists and term scores are fine to include and
-may be added later).
+## Requirements
 
-Numbering has a gap where `02b` and `03b` insert between `01`/`02` and
-`02`/`03` — that reflects the order these steps run in, not the order they
-were reconstructed in. Renumbering everything sequentially would mean
-renaming files that are already public; not worth the churn.
+```
+pandas
+numpy
+scikit-learn
+langdetect
+networkx
+matplotlib
+apify-client   # only needed for 01_linkedin_scraper.ipynb
+```
 
-## Reconstructed steps — verification status
+Each notebook expects a local `data/` folder for CSV input/output. Raw
+scraped postings aren't included in this repo; running the pipeline from
+scratch requires an [Apify](https://apify.com) account and API token, set as
+the `APIFY_API_TOKEN` environment variable (see `01_linkedin_scraper.ipynb`).
+
+## Notes on reconstructed steps
 
 `02b_enrich_ai_flag_language_geo.ipynb` and `03b_ingestion_fixes.ipynb` were
-reverse-engineered by diffing the uploaded CSV snapshots against each other
-(the original notebooks for these steps weren't saved). Each transformation
-was checked against the real data before being written:
+reconstructed after the fact by diffing intermediate data snapshots, since
+the original notebooks for those two steps weren't preserved. Every
+transformation in them was verified against the actual data before being
+included; two (the `mentions_ai` keyword regex and the `postedDaysAgo`
+date parser) are close reconstructions rather than exact matches, and are
+flagged as such inline. Full verification detail is in each notebook's
+markdown cells.
 
-- `country` = copy of `search_location_used` — **100% verified**
-- `applicationsCount_numeric` / `applicationsCount_tag` parsing — **100% verified** (2,291 exact / 1,159 over_200 / 1,499 first_25, matches source exactly)
-- Stray-quote fix in `description` — **100% verified** (reproduces all 405 changed rows exactly)
-- Whitespace normalization in `title` — **100% verified** (reproduces all 24 changed rows exactly, including embedded newlines and non-standard Unicode spaces)
-- `mentions_ai` keyword regex — **~99.1% agreement**, not exact. The original regex isn't recoverable; this is a close reconstruction, flagged in the notebook itself.
-- `postedDaysAgo` relative-date parsing — **~96.7% agreement** on the sample checked, also flagged in the notebook.
+## Limitations
 
-The "18-row column shift" and "5 phantom TAM rows" bugs mentioned in
-`Inferences.md` don't show up as a row-count difference in any of the
-uploaded CSV snapshots (all consistently 4,949 rows, 0 duplicate URLs) — the
-TAM figure was likely a Power BI card metric computed before these CSVs were
-saved, not something reconstructable from row diffs alone. Noted here rather
-than silently dropped.
+The two TF-IDF vectorizers in `05_tfidf_nmf_topics.ipynb` are fit
+independently per group (AI-mention vs. non-AI-mention), so the group-diff
+comparison treats a term missing from one group's vocabulary as a score of
+0 — a reasonable approximation, not a perfectly controlled comparison. See
+`Inferences.md` for the specific artifact this causes on the term `tools`.
 
-## Known data caveats
-
-- `05_tfidf_nmf_topics.ipynb`: the two TF-IDF vectorizers are fit
-  independently per group, so the group-diff comparison treats a term
-  missing from one group's vocabulary as 0 — an approximation, not a
-  perfectly controlled comparison. See `Inferences.md` for the specific
-  `tools` = 0.0 artifact this causes.
-
-## Excluded
-
-- `Data Cleaning.ipynb` — an earlier exploratory notebook that duplicates
-  `05_tfidf_nmf_topics.ipynb`'s TF-IDF/NMF logic on an intermediate snapshot
-  of the data (post-`mentions_ai`, pre-`is_english`/`country`). Superseded
-  by the properly-staged version in this pipeline; left out to avoid
-  reviewer confusion.
-- `Hubspot Data.ipynb` — dropped entirely at Shiv's request. It listed all
-  43 of his real tracked job applications (company names, titles) with a
-  `seniority` column that also turned out to be an unfilled placeholder
-  (defaulted every row to `"Entry/Junior (inferred)"`). The aggregate
-  20/43-company-overlap finding stays in `Inferences.md` as a reported
-  statistic; the underlying per-application notebook isn't published.
+An inferential/statistical layer (e.g. logistic regression of AI-mention on
+country, seniority, and work type) is planned but not yet implemented.

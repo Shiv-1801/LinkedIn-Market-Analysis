@@ -1,7 +1,5 @@
 # MIA Project — Notebooks
 
-Pipeline order and status. See `../Inferences.md` for findings, `../MIA_Report_Outline.md` for the write-up structure.
-
 ## Pipeline
 
 ```

@@ -1,0 +1,235 @@
+group,skill_a,skill_b,cooccurrence
+AI-mention,Python,SQL,520
+AI-mention,SQL,Tableau,324
+AI-mention,Power BI,SQL,308
+AI-mention,Python,Tableau,257
+AI-mention,Power BI,Python,243
+AI-mention,Power BI,Tableau,241
+AI-mention,Machine Learning,Python,196
+AI-mention,Looker,SQL,195
+AI-mention,Excel,SQL,194
+AI-mention,Machine Learning,SQL,190
+AI-mention,Excel,Power BI,173
+AI-mention,Looker,Tableau,159
+AI-mention,Excel,Python,152
+AI-mention,Google Analytics,SQL,151
+AI-mention,SQL,Snowflake,147
+AI-mention,Excel,Tableau,140
+AI-mention,Looker,Python,124
+AI-mention,Google Analytics,Looker,120
+AI-mention,Looker,Power BI,117
+AI-mention,BigQuery,SQL,114
+AI-mention,Google Analytics,Power BI,112
+AI-mention,LLM,SQL,108
+AI-mention,Python,Snowflake,107
+AI-mention,LLM,Python,105
+AI-mention,Databricks,SQL,103
+AI-mention,Agentic / AI Agents,SQL,102
+AI-mention,Google Analytics,Tableau,102
+AI-mention,Machine Learning,Tableau,98
+AI-mention,SQL,Salesforce,96
+AI-mention,Machine Learning,Power BI,95
+AI-mention,Google Ads,Google Analytics,93
+AI-mention,Google Analytics,Python,89
+AI-mention,Generative AI,SQL,88
+AI-mention,Excel,Google Analytics,87
+AI-mention,Generative AI,Python,85
+AI-mention,Databricks,Python,81
+AI-mention,Agentic / AI Agents,Python,78
+AI-mention,Power BI,Snowflake,77
+AI-mention,Claude,SQL,77
+AI-mention,Snowflake,Tableau,77
+AI-mention,BigQuery,Python,75
+AI-mention,AWS,SQL,70
+AI-mention,Adobe Analytics,Google Analytics,70
+AI-mention,Generative AI,Tableau,69
+AI-mention,Excel,Looker,67
+AI-mention,Databricks,Power BI,67
+AI-mention,BigQuery,Looker,66
+AI-mention,Power BI,Salesforce,66
+AI-mention,Salesforce,Tableau,66
+AI-mention,Adobe Analytics,SQL,63
+AI-mention,Google Cloud (GCP),SQL,60
+AI-mention,AWS,Python,59
+AI-mention,BigQuery,Google Analytics,59
+AI-mention,ChatGPT / GPT,Claude,58
+AI-mention,Azure,SQL,56
+AI-mention,Google Cloud (GCP),Python,56
+AI-mention,Looker,Snowflake,55
+AI-mention,Azure,Python,55
+AI-mention,Claude,Python,54
+AI-mention,Generative AI,Power BI,53
+AI-mention,Google Analytics,Salesforce,53
+AI-mention,Databricks,Tableau,53
+AI-mention,BigQuery,Snowflake,52
+AI-mention,Looker,Salesforce,52
+AI-mention,AWS,Tableau,51
+AI-mention,Adobe Analytics,Power BI,49
+AI-mention,BigQuery,Power BI,49
+AI-mention,Excel,Machine Learning,49
+AI-mention,Excel,Salesforce,48
+AI-mention,BigQuery,Tableau,48
+AI-mention,Adobe Analytics,Tableau,48
+AI-mention,LLM,Tableau,47
+AI-mention,Machine Learning,Snowflake,47
+AI-mention,Azure,Power BI,47
+AI-mention,Adobe Analytics,Python,46
+AI-mention,Python,Salesforce,46
+AI-mention,Generative AI,Machine Learning,46
+AI-mention,Claude,Tableau,46
+AI-mention,Google Ads,Meta Ads / Facebook Ads,46
+AI-mention,Databricks,Snowflake,45
+AI-mention,Looker,Machine Learning,45
+AI-mention,Agentic / AI Agents,Tableau,44
+AI-mention,Amplitude,SQL,43
+AI-mention,Google Analytics,Meta Ads / Facebook Ads,42
+AI-mention,Excel,Generative AI,40
+AI-mention,Python,SAS,40
+AI-mention,LLM,Power BI,39
+AI-mention,Google Ads,SQL,39
+AI-mention,SAS,SQL,38
+AI-mention,ChatGPT / GPT,Google Analytics,38
+AI-mention,Databricks,Machine Learning,38
+AI-mention,Agentic / AI Agents,Power BI,38
+AI-mention,AWS,Power BI,38
+AI-mention,Google Ads,Looker,37
+AI-mention,Agentic / AI Agents,LLM,37
+AI-mention,LLM,Looker,36
+AI-mention,Redshift,SQL,36
+AI-mention,Claude,Google Analytics,36
+AI-mention,Salesforce,Snowflake,35
+AI-mention,Google Analytics,HubSpot,35
+AI-mention,Google Analytics,Machine Learning,35
+AI-mention,Claude,Excel,35
+AI-mention,Claude,Looker,35
+AI-mention,AWS,Azure,34
+AI-mention,Generative AI,Looker,34
+AI-mention,Azure,Google Cloud (GCP),34
+AI-mention,Google Cloud (GCP),Power BI,33
+AI-mention,Google Analytics,Snowflake,33
+AI-mention,Google Ads,Power BI,33
+AI-mention,Excel,Snowflake,33
+AI-mention,Excel,Google Ads,33
+AI-mention,Claude,Power BI,33
+AI-mention,BigQuery,Machine Learning,32
+AI-mention,AWS,Machine Learning,32
+AI-mention,LLM,Machine Learning,32
+AI-mention,HubSpot,Salesforce,32
+AI-mention,Claude,Gemini,32
+AI-mention,Excel,LLM,31
+AI-mention,SAS,Tableau,31
+AI-mention,Agentic / AI Agents,Looker,31
+AI-mention,Adobe Analytics,Looker,31
+AI-mention,AWS,Google Cloud (GCP),31
+AI-mention,Agentic / AI Agents,Machine Learning,30
+AI-mention,Agentic / AI Agents,BigQuery,30
+Non-AI-mention,Python,SQL,428
+Non-AI-mention,Power BI,SQL,370
+Non-AI-mention,SQL,Tableau,343
+Non-AI-mention,Excel,Power BI,300
+Non-AI-mention,Power BI,Tableau,298
+Non-AI-mention,Excel,SQL,282
+Non-AI-mention,Power BI,Python,216
+Non-AI-mention,Excel,Tableau,202
+Non-AI-mention,Python,Tableau,201
+Non-AI-mention,Google Analytics,SQL,186
+Non-AI-mention,Looker,SQL,166
+Non-AI-mention,Excel,Python,157
+Non-AI-mention,Looker,Tableau,156
+Non-AI-mention,Google Analytics,Power BI,147
+Non-AI-mention,Google Analytics,Tableau,140
+Non-AI-mention,Looker,Power BI,140
+Non-AI-mention,Google Analytics,Looker,135
+Non-AI-mention,Excel,Google Analytics,126
+Non-AI-mention,BigQuery,SQL,113
+Non-AI-mention,Google Ads,Google Analytics,101
+Non-AI-mention,Adobe Analytics,Google Analytics,97
+Non-AI-mention,Looker,Python,92
+Non-AI-mention,Google Analytics,Python,91
+Non-AI-mention,Excel,Looker,90
+Non-AI-mention,SQL,Snowflake,86
+Non-AI-mention,Adobe Analytics,SQL,86
+Non-AI-mention,BigQuery,Looker,78
+Non-AI-mention,BigQuery,Google Analytics,74
+Non-AI-mention,BigQuery,Power BI,67
+Non-AI-mention,Adobe Analytics,Power BI,67
+Non-AI-mention,BigQuery,Python,65
+Non-AI-mention,Excel,Salesforce,64
+Non-AI-mention,Adobe Analytics,Tableau,64
+Non-AI-mention,Databricks,SQL,63
+Non-AI-mention,BigQuery,Tableau,63
+Non-AI-mention,Google Ads,Meta Ads / Facebook Ads,62
+Non-AI-mention,Power BI,Salesforce,61
+Non-AI-mention,Power BI,Snowflake,59
+Non-AI-mention,Python,Snowflake,59
+Non-AI-mention,SQL,Salesforce,54
+Non-AI-mention,Google Analytics,Meta Ads / Facebook Ads,53
+Non-AI-mention,Snowflake,Tableau,52
+Non-AI-mention,Google Cloud (GCP),SQL,51
+Non-AI-mention,AWS,SQL,50
+Non-AI-mention,Excel,Google Ads,47
+Non-AI-mention,Salesforce,Tableau,47
+Non-AI-mention,Azure,SQL,47
+Non-AI-mention,Adobe Analytics,Excel,46
+Non-AI-mention,Databricks,Power BI,44
+Non-AI-mention,Adobe Analytics,Python,43
+Non-AI-mention,Azure,Power BI,43
+Non-AI-mention,Google Analytics,Salesforce,43
+Non-AI-mention,Databricks,Python,42
+Non-AI-mention,BigQuery,Snowflake,41
+Non-AI-mention,AWS,Python,39
+Non-AI-mention,SAS,SQL,35
+Non-AI-mention,Adobe Analytics,Looker,35
+Non-AI-mention,AWS,Power BI,34
+Non-AI-mention,AWS,Tableau,34
+Non-AI-mention,Google Cloud (GCP),Python,34
+Non-AI-mention,Google Ads,SQL,33
+Non-AI-mention,Azure,Python,32
+Non-AI-mention,Python,Salesforce,32
+Non-AI-mention,Google Analytics,Snowflake,31
+Non-AI-mention,Excel,SAP,31
+Non-AI-mention,Python,SAS,31
+Non-AI-mention,Looker,Snowflake,30
+Non-AI-mention,HubSpot,Salesforce,29
+Non-AI-mention,BigQuery,Google Cloud (GCP),29
+Non-AI-mention,Google Ads,Looker,29
+Non-AI-mention,Excel,Meta Ads / Facebook Ads,29
+Non-AI-mention,Google Cloud (GCP),Tableau,28
+Non-AI-mention,Looker,Salesforce,28
+Non-AI-mention,Azure,Tableau,26
+Non-AI-mention,Databricks,Tableau,26
+Non-AI-mention,Google Analytics,HubSpot,26
+Non-AI-mention,BigQuery,Excel,26
+Non-AI-mention,Google Cloud (GCP),Power BI,25
+Non-AI-mention,Excel,Snowflake,24
+Non-AI-mention,Google Ads,Power BI,24
+Non-AI-mention,Google Ads,Tableau,24
+Non-AI-mention,SAS,Tableau,23
+Non-AI-mention,Redshift,SQL,23
+Non-AI-mention,Power BI,SAP,23
+Non-AI-mention,Databricks,Excel,22
+Non-AI-mention,Databricks,Snowflake,22
+Non-AI-mention,Excel,HubSpot,21
+Non-AI-mention,AWS,Azure,21
+Non-AI-mention,Google Cloud (GCP),Looker,21
+Non-AI-mention,AWS,Google Cloud (GCP),20
+Non-AI-mention,Redshift,Snowflake,20
+Non-AI-mention,Excel,SAS,19
+Non-AI-mention,AWS,Snowflake,19
+Non-AI-mention,Adobe Analytics,Salesforce,19
+Non-AI-mention,Google Ads,Python,18
+Non-AI-mention,Redshift,Tableau,18
+Non-AI-mention,Google Analytics,Google Cloud (GCP),18
+Non-AI-mention,Adobe Analytics,Snowflake,17
+Non-AI-mention,Azure,Google Cloud (GCP),17
+Non-AI-mention,Power BI,SAS,16
+Non-AI-mention,Python,Redshift,16
+Non-AI-mention,Meta Ads / Facebook Ads,SQL,16
+Non-AI-mention,Databricks,Looker,16
+Non-AI-mention,AWS,Google Analytics,15
+Non-AI-mention,Azure,Snowflake,15
+Non-AI-mention,BigQuery,Redshift,15
+Non-AI-mention,Python,SPSS,15
+Non-AI-mention,Meta Ads / Facebook Ads,Tableau,15
+Non-AI-mention,Mixpanel,SQL,15
+Non-AI-mention,Looker,Meta Ads / Facebook Ads,15

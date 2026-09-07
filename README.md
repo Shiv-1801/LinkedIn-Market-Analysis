@@ -6,7 +6,7 @@ Three independent text-analysis methods — topic modeling, TF-IDF term comparis
 ## Key findings
 
 - LinkedIn matches postings by search intent, not literal title — only ~5% of postings literally contain the searched phrase.
-- AI-mention rate varies substantially by country (26% France to 58% Canada), and by seniority tier: Entry/Junior is the most AI-mention-saturated segment globally, while in India specifically AI-adoption hiring skews toward Mid/Manager-Lead roles instead.
+- AI-mention rate varies substantially by country (26% France to 58% Canada), and rises with seniority: Director/Executive leads (0.51), followed by Senior (0.50), Manager/Lead (0.49), Mid from experience (0.45), Entry/Junior (0.43), and Mid/Unspecified (0.33). In India specifically, AI-adoption hiring skews toward Mid/Manager-Lead — only 3.6% of India's AI-adjacent postings are Entry/Junior.
 - Power BI shows up in only 43% of AI-adjacent postings — well behind Python (60%), Databricks (67%), and Snowflake (63%) — reading as legacy BI tooling rather than part of the AI stack.
 - Topic modeling, TF-IDF term-frequency comparison, and skill co-occurrence network structure all independently identify the same boundary: AI-mention postings pull toward a distinct technical/analytical vocabulary (analysis, engineering, automation), while non-AI postings cluster around traditional retail/brand-marketing language.
 

@@ -1,0 +1,11 @@
+group,topic,top_terms
+AI-mention,1,"product, people, impact, end, building, make, high, engineering, company, real, decisions, technical"
+AI-mention,2,"digital, campaign, media, seo, search, google, content, campaigns, digital marketing, ads, website, optimization"
+AI-mention,3,"research, market, client, clients, media, consumer, global, strategic, intelligence, solutions, information, projects"
+AI-mention,4,"customer, digital, commercial, bi, insight, improve, power, advanced, power bi, solutions, crm, engagement"
+AI-mention,5,"et, des, les, la, en, une, vous, dans, le, pour, avec, données"
+Non-AI-mention,1,"client, solutions, people, clients, company, technical, help, science, information, financial, make, job"
+Non-AI-mention,2,"media, digital, campaign, google, campaigns, social, digital marketing, ads, content, search, seo, platforms"
+Non-AI-mention,3,"operations, accenture, trade, campaign, services, technology, required, skill, impact work, 40 industries, services accenture, digital cloud"
+Non-AI-mention,4,"customer, crm, digital, product, retention, conversion, growth, ecommerce, campaign, segmentation, commercial, loyalty"
+Non-AI-mention,5,"market, sales, commercial, pricing, research, consumer, category, brand, global, planning, growth, strategic"

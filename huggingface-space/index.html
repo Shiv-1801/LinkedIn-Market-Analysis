@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIA Job Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #F5F7FD;
+      --surface:     #FFFFFF;
+      --elevated:    #EDF0FB;
+      --border:      #D0D8F0;
+      --accent:      #B86E00;
+      --accent-dim:  #FEF3C7;
+      --text:        #0F1629;
+      --muted:       #5A6B8C;
+      --score-ai:    #15803D;
+      --score-mix:   #B45309;
+      --score-trad:  #B91C1C;
+      --dim-ai:      #DCFCE7;
+      --dim-mix:     #FEF9C3;
+      --dim-trad:    #FEE2E2;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:          #0D1117;
+        --surface:     #161C2D;
+        --elevated:    #1E2740;
+        --border:      #2D3B5C;
+        --accent:      #F5A000;
+        --accent-dim:  #3A2D00;
+        --text:        #E4EAF8;
+        --muted:       #6B7899;
+        --score-ai:    #22C55E;
+        --score-mix:   #F5A000;
+        --score-trad:  #F87171;
+        --dim-ai:      #052E16;
+        --dim-mix:     #431407;
+        --dim-trad:    #450A0A;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg:          #0D1117;
+      --surface:     #161C2D;
+      --elevated:    #1E2740;
+      --border:      #2D3B5C;
+      --accent:      #F5A000;
+      --accent-dim:  #3A2D00;
+      --text:        #E4EAF8;
+      --muted:       #6B7899;
+      --score-ai:    #22C55E;
+      --score-mix:   #F5A000;
+      --score-trad:  #F87171;
+      --dim-ai:      #052E16;
+      --dim-mix:     #431407;
+      --dim-trad:    #450A0A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .logo-divider { color: var(--border); }
+    .header-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .header-link {
+      margin-left: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .header-link:hover { color: var(--text); }
+
+    /* ── Body split ── */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      flex: 1;
+    }
+
+    .panel {
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .panel-input {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-results {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Input side ── */
+    .field-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .jd-textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 280px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 14px 16px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.75;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .jd-textarea:focus { border-color: var(--accent); }
+    .jd-textarea::placeholder { color: var(--muted); opacity: 0.7; }
+
+    .example-note {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .analyze-btn:hover:not(:disabled) { opacity: 0.86; }
+    .analyze-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    .method-note {
+      padding: 13px 15px;
+      background: var(--elevated);
+      border-radius: 5px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .method-note strong { color: var(--text); font-weight: 500; }
+
+    /* ── Results: empty state ── */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      padding: 40px;
+    }
+    .empty-glyph {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 36px;
+      opacity: 0.3;
+      line-height: 1;
+    }
+    .empty-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.7;
+      max-width: 220px;
+    }
+
+    /* ── Results: content ── */
+    .results-content { display: none; }
+    .results-content.visible { display: block; }
+
+    .score-block { margin-bottom: 32px; }
+
+    .score-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 88px;
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+    .score-num.ai   { color: var(--score-ai); }
+    .score-num.mix  { color: var(--score-mix); }
+    .score-num.trad { color: var(--score-trad); }
+
+    .score-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.3s;
+    }
+    .score-fill.ai   { background: var(--score-ai); }
+    .score-fill.mix  { background: var(--score-mix); }
+    .score-fill.trad { background: var(--score-trad); }
+
+    .verdict-label {
+      font-size: 14.5px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .verdict-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── Result sections ── */
+    .result-section { margin-bottom: 24px; }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .chip {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--elevated);
+      color: var(--text);
+      border: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .chip-accent {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .none-msg {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .topic-card {
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 13px 15px;
+    }
+    .topic-terms {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 10px 32px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      flex-shrink: 0;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+
+    @media (max-width: 780px) {
+      .main { grid-template-columns: 1fr; }
+      .panel-input { border-right: none; border-bottom: 1px solid var(--border); }
+      .panel { padding: 24px 20px; }
+      .header { padding: 14px 20px; }
+      .header-title { display: none; }
+      .score-num { font-size: 72px; }
+      .footer { padding: 10px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .score-fill { transition: none; }
+      .score-num  { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <span class="logo">MIA</span>
+  <span class="logo-divider">|</span>
+  <span class="header-title">Marketing Intelligence &amp; AI-Adoption Analyzer</span>
+  <a class="header-link" href="https://github.com/Shiv-1801/LinkedIn-Market-Analysis" target="_blank" rel="noopener">
+    ↗ GitHub
+  </a>
+</header>
+
+<div class="main">
+
+  <!-- Input panel -->
+  <div class="panel panel-input">
+    <div>
+      <div class="field-label">Job Description</div>
+      <textarea class="jd-textarea" id="jd" rows="14" placeholder="Paste a job description here…"></textarea>
+    </div>
+    <div class="example-note">Example pre-loaded — replace with any JD to score it. Ctrl+↵ to run.</div>
+    <button class="analyze-btn" id="analyzeBtn" disabled>Loading data…</button>
+    <div class="method-note">
+      Scored against <strong>6,023 TF-IDF terms</strong> and <strong>10 AI-exclusive skills</strong>
+      extracted from 4,949 LinkedIn postings across 10 countries. Positive score = vocabulary skews toward
+      the AI-mention segment; negative skew = traditional marketing/BI language.
+      No ML inference — pure vocabulary matching against pre-computed group differences.
+    </div>
+  </div>
+
+  <!-- Results panel -->
+  <div class="panel panel-results">
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-glyph">◎</div>
+      <p class="empty-text">Paste a job description and click Analyze.</p>
+    </div>
+
+    <div class="results-content" id="resultsContent">
+
+      <div class="score-block">
+        <div class="field-label">AI Signal Score</div>
+        <div class="score-num" id="scoreNum">—</div>
+        <div class="score-track">
+          <div class="score-fill" id="scoreFill" style="width:0%"></div>
+        </div>
+        <div class="verdict-label" id="verdictLabel"></div>
+        <div class="verdict-desc" id="verdictDesc"></div>
+      </div>
+
+      <div class="result-section">
+        <div class="section-label">AI-signal terms found</div>
+        <div class="chip-row" id="signalChips"></div>
+      </div>
+
+      <div class="result-section">
+        <div class="section-label">AI-exclusive skills detected</div>
+        <div class="chip-row" id="exclusiveChips"></div>
+      </div>
+
+      <div class="result-section">
+        <div class="section-label">Closest AI topic cluster</div>
+        <div class="topic-card">
+          <div class="topic-terms" id="topicTerms"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <span>4,949 LinkedIn postings · 10 countries · Aug 2026</span>
+  <span>·</span>
+  <a href="https://github.com/Shiv-1801/LinkedIn-Market-Analysis" target="_blank" rel="noopener">
+    Shiv-1801/LinkedIn-Market-Analysis
+  </a>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── CSV parser ──────────────────────────────────────────────────────────────
+  function parseRow(line) {
+    var fields = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { fields.push(cur); cur = ''; }
+      else { cur += c; }
+    }
+    fields.push(cur);
+    return fields;
+  }
+
+  function parseCSV(text) {
+    var lines = text.trim().split(/\r?\n/);
+    var headers = parseRow(lines[0]);
+    return lines.slice(1).map(function (line) {
+      var vals = parseRow(line), row = {};
+      headers.forEach(function (h, i) { row[h.trim()] = (vals[i] || '').trim(); });
+      return row;
+    });
+  }
+
+  // ── State ───────────────────────────────────────────────────────────────────
+  var aiTerms    = {};   // term -> diff (positive)
+  var nonAiTerms = {};   // term -> true
+  var exSkills   = [];   // lowercase skill strings
+  var aiTopics   = [];   // [{terms: string}]
+  var ready      = false;
+
+  // ── Load ────────────────────────────────────────────────────────────────────
+  function fetchText(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(url + ' ' + r.status);
+      return r.text();
+    });
+  }
+
+  function loadData() {
+    Promise.all([
+      fetchText('./data/mia_tfidf_group_diff.csv'),
+      fetchText('./data/mia_skill_group_exclusive.csv'),
+      fetchText('./data/mia_tfidf_nmf_topic_terms.csv')
+    ]).then(function (results) {
+      parseCSV(results[0]).forEach(function (r) {
+        var d = parseFloat(r['diff']);
+        var t = (r['term'] || '').toLowerCase();
+        if (!t) return;
+        if (d > 0) aiTerms[t] = d;
+        else if (d < 0) nonAiTerms[t] = true;
+      });
+
+      parseCSV(results[1]).forEach(function (r) {
+        if (r['skill']) exSkills.push(r['skill'].toLowerCase());
+      });
+
+      parseCSV(results[2]).forEach(function (r) {
+        if (r['group'] === 'AI-mention') {
+          aiTopics.push({ topic: r['topic'], terms: r['top_terms'].replace(/^"|"$/g, '') });
+        }
+      });
+
+      ready = true;
+      var btn = document.getElementById('analyzeBtn');
+      btn.disabled = false;
+      btn.textContent = 'Analyze';
+
+      // Auto-run on the pre-loaded example
+      run();
+    }).catch(function (err) {
+      document.getElementById('analyzeBtn').textContent = 'Error loading data';
+      console.error(err);
+    });
+  }
+
+  // ── Tokenise ─────────────────────────────────────────────────────────────────
+  function tokenise(text) {
+    var lower = text.toLowerCase();
+    var words = lower.match(/[a-z][a-z0-9]*/g) || [];
+    var set = {};
+    words.forEach(function (w) { set[w] = true; });
+    for (var i = 0; i < words.length - 1; i++) {
+      set[words[i] + ' ' + words[i + 1]] = true;
+    }
+    for (var j = 0; j < words.length - 2; j++) {
+      set[words[j] + ' ' + words[j + 1] + ' ' + words[j + 2]] = true;
+    }
+    return set;
+  }
+
+  // ── Score ────────────────────────────────────────────────────────────────────
+  function scoreJD(text) {
+    var tokens = tokenise(text);
+    var lower  = text.toLowerCase();
+
+    var aiHits = [], nonAiHits = [];
+    Object.keys(tokens).forEach(function (t) {
+      if (aiTerms[t])    aiHits.push(t);
+      if (nonAiTerms[t]) nonAiHits.push(t);
+    });
+
+    // Sort AI hits by distinctiveness (highest diff first)
+    aiHits.sort(function (a, b) { return (aiTerms[b] || 0) - (aiTerms[a] || 0); });
+
+    var excHits = exSkills.filter(function (s) { return lower.indexOf(s) !== -1; });
+
+    var total = aiHits.length + nonAiHits.length;
+    var base  = total > 0 ? Math.round(aiHits.length / total * 100) : 50;
+    var score = Math.min(base + Math.min(excHits.length * 5, 20), 100);
+
+    // Closest topic by token overlap
+    var best = null, bestN = -1;
+    aiTopics.forEach(function (t) {
+      var words = t.terms.split(', ');
+      var n = 0;
+      words.forEach(function (w) { if (tokens[w.toLowerCase()]) n++; });
+      if (n > bestN) { bestN = n; best = t; }
+    });
+
+    return {
+      score:    score,
+      aiHits:   aiHits.slice(0, 22),
+      excHits:  excHits,
+      topic:    best
+    };
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────────
+  function cls(score) {
+    return score >= 70 ? 'ai' : score >= 45 ? 'mix' : 'trad';
+  }
+
+  var VERDICTS = {
+    ai:   ['AI-adjacent',  'Vocabulary skews toward the AI-mention segment — analytical toolchain, technical automation.'],
+    mix:  ['Mixed signal', 'Elements of both AI-native and traditional marketing-analytics language.'],
+    trad: ['Traditional',  'Vocabulary skews toward the non-AI segment — retail, brand, campaign-marketing language.']
+  };
+
+  function render(result) {
+    var c = cls(result.score);
+    var v = VERDICTS[c];
+
+    // Show results, hide empty state
+    document.getElementById('emptyState').style.display = 'none';
+    var rc = document.getElementById('resultsContent');
+    rc.classList.add('visible');
+
+    // Score
+    var numEl = document.getElementById('scoreNum');
+    numEl.textContent = result.score;
+    numEl.className   = 'score-num ' + c;
+
+    var fill = document.getElementById('scoreFill');
+    fill.style.width = result.score + '%';
+    fill.className   = 'score-fill ' + c;
+
+    document.getElementById('verdictLabel').textContent = v[0];
+    document.getElementById('verdictDesc').textContent  = v[1];
+
+    // Signal terms
+    var sigEl = document.getElementById('signalChips');
+    sigEl.innerHTML = result.aiHits.length
+      ? result.aiHits.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('')
+      : '<span class="none-msg">none detected</span>';
+
+    // Exclusive skills
+    var excEl = document.getElementById('exclusiveChips');
+    excEl.innerHTML = result.excHits.length
+      ? result.excHits.map(function (s) { return '<span class="chip chip-accent">' + esc(s) + '</span>'; }).join('')
+      : '<span class="none-msg">none detected</span>';
+
+    // Topic
+    document.getElementById('topicTerms').textContent = result.topic
+      ? result.topic.terms
+      : 'no strong match';
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Run ──────────────────────────────────────────────────────────────────────
+  function run() {
+    if (!ready) return;
+    var text = document.getElementById('jd').value.trim();
+    if (!text) return;
+    render(scoreJD(text));
+  }
+
+  // ── Events ───────────────────────────────────────────────────────────────────
+  document.getElementById('analyzeBtn').addEventListener('click', run);
+  document.getElementById('jd').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) run();
+  });
+
+  // ── Pre-load example ─────────────────────────────────────────────────────────
+  document.getElementById('jd').value = [
+    'We are looking for a Market Intelligence Analyst to join our AI products team.',
+    '',
+    'You will research competitor positioning, build analysis pipelines in Python, and',
+    'present insights to the product and strategy teams. The role sits at the intersection',
+    'of market research and applied AI — you\'ll use LLM-based automation and Prompt',
+    'Engineering to accelerate intelligence workflows, and synthesise outputs into',
+    'decision-ready briefs.',
+    '',
+    'Requirements: Python, SQL, Databricks or Snowflake experience, strong written',
+    'communication, and comfort with agentic AI tools. Generative AI fluency and',
+    'experience with RAG pipelines a plus. Power BI or Tableau for reporting.',
+  ].join('\n');
+
+  loadData();
+})();
+</script>
+
+</body>
+</html>
